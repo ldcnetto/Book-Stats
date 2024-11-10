@@ -8,18 +8,12 @@ import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import InputBase from '@mui/material/InputBase';
-import Badge from '@mui/material/Badge';
-import MenuItem from '@mui/material/MenuItem';
-import Menu from '@mui/material/Menu';
 import MenuIcon from '@mui/icons-material/Menu';
 import SearchIcon from '@mui/icons-material/Search';
-import AccountCircle from '@mui/icons-material/AccountCircle';
-import MailIcon from '@mui/icons-material/Mail';
-import NotificationsIcon from '@mui/icons-material/Notifications';
-import MoreIcon from '@mui/icons-material/MoreVert';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
+import CircularProgress from '@mui/material/CircularProgress';
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -61,7 +55,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
-export default function PrimarySearchAppBar() {
+export default function HeaderSearchAppBar() {
   const [searchTerm, setSearchTerm] = useState('');
   const [searchResults, setSearchResults] = useState<any[]>([]);
   const [searchError, setSearchError] = useState<string | null>(null);
@@ -109,41 +103,63 @@ export default function PrimarySearchAppBar() {
   }, [debouncedSearchTerm]);
 
   return (
-    <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static">
-        <Toolbar>
-          <IconButton
-            size="large"
-            edge="start"
-            color="inherit"
-            aria-label="open drawer"
-            sx={{ mr: 2 }}
-          >
-            <MenuIcon />
-          </IconButton>
+    <Box sx={{ justifyContent: 'space-between' }}>
+      <AppBar
+        sx={{
+          bgcolor: '#7839e8 !important',
+          display: 'flex',
+          width: '100% !important',
+          alignItems: 'flex-start',
+          position: 'relative',
+        }}
+      >
+        <Toolbar
+          sx={{
+            width: '100% !important',
+            display: 'flex',
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+          }}
+        >
           <Typography
-            variant="h6"
+            variant="h5"
             noWrap
             component="div"
-            sx={{ display: { xs: 'none', sm: 'block' } }}
+            sx={{ display: { sm: 'block' }, minWidth: '120px', mr: 2 }}
           >
             BookStats
           </Typography>
-          <Search>
+
+          <Search sx={{ width: '100% !important', maxWidth: '1000px' }}>
             <SearchIconWrapper>
               <SearchIcon />
             </SearchIconWrapper>
             <StyledInputBase
+              sx={{ width: '100% !important' }}
               placeholder="Search…"
               inputProps={{ 'aria-label': 'search' }}
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
             />
           </Search>
+
+          <IconButton
+            size="large"
+            edge="start"
+            color="inherit"
+            aria-label="open drawer"
+            sx={{ ml: 2 }}
+          >
+            <MenuIcon />
+          </IconButton>
         </Toolbar>
       </AppBar>
 
-      {searchLoading && <div>Carregando...</div>}
+      {searchLoading && (
+        <Box sx={{ display: 'flex' }}>
+          <CircularProgress />
+        </Box>
+      )}
       {searchError && <div>Erro: {searchError}</div>}
       {!searchLoading && !searchError && searchResults && (
         <List>
@@ -155,6 +171,7 @@ export default function PrimarySearchAppBar() {
                   book.volumeInfo.authors &&
                   `By: ${book.volumeInfo.authors.join(', ')}`
                 }
+                // tertiary={<img src={book.volumeInfo.imageLinks.thumbnail}}
               />
             </ListItem>
           ))}
