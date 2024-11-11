@@ -1,0 +1,193 @@
+/* Fontes */
+@import url('https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&family=Oswald:wght@200..700&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&family=Oswald:wght@200..700&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  margin: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif !important;
+}
+
+.darkMode {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  p,
+  li,
+  strong {
+    color: #fff !important;
+  }
+  background-color: #121212 !important;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: 'Poppins', sans-serif !important;
+  color: #111111 !important;
+}
+
+h1 {
+  font-size: 3.5625rem;
+  line-height: 4rem;
+  font-weight: 700;
+  letter-spacing: 0;
+
+  @media (max-width: 768px) {
+    font-size: 3rem;
+    line-height: 3.5rem;
+  }
+
+  @media (max-width: 576px) {
+    font-size: 2.5rem;
+    line-height: 3.25rem;
+  }
+}
+
+h2 {
+  font-size: 2.8125rem;
+  line-height: 3.25rem;
+  font-weight: 700;
+  letter-spacing: 0;
+
+  @media (max-width: 768px) {
+    font-size: 2.5rem;
+    line-height: 3rem;
+  }
+
+  @media (max-width: 576px) {
+    font-size: 2rem;
+    line-height: 2.75rem;
+  }
+}
+
+h3 {
+  font-size: 2.25rem;
+  line-height: 2.75rem;
+  font-weight: 600;
+  letter-spacing: 0;
+
+  @media (max-width: 768px) {
+    font-size: 2rem;
+    line-height: 2.5rem;
+  }
+
+  @media (max-width: 576px) {
+    font-size: 1.5rem;
+    line-height: 2rem;
+  }
+}
+
+h4,
+.text-title-4 {
+  font-size: 1.75rem;
+  line-height: 2.25rem;
+  font-weight: 600;
+  letter-spacing: 0;
+
+  @media (max-width: 768px) {
+    font-size: 1.5rem;
+    line-height: 2rem;
+  }
+
+  @media (max-width: 576px) {
+    font-size: 1.1875rem;
+    line-height: 1.95rem;
+  }
+}
+
+h5 {
+  font-size: 1.5rem;
+  line-height: 2.25rem;
+  font-weight: 600;
+  letter-spacing: 0;
+
+  @media (max-width: 768px) {
+    font-size: 1.25rem;
+    line-height: 1.75rem;
+  }
+
+  @media (max-width: 576px) {
+    font-size: 1.125rem;
+    line-height: 1.45rem;
+  }
+}
+
+h6 {
+  font-size: 1rem;
+  line-height: 1.75rem;
+  font-weight: 400;
+  letter-spacing: 0;
+
+  @media (max-width: 768px) {
+    font-size: 1.25rem;
+    line-height: 1.75rem;
+  }
+
+  @media (max-width: 576px) {
+    font-size: 1.125rem;
+    line-height: 1.45rem;
+  }
+}
+
+p,
+li {
+  color: #111111;
+  font-size: 1rem;
+  line-height: 1.25rem;
+  font-weight: 400;
+  letter-spacing: 0;
+
+  @media (max-width: 768px) {
+    font-size: 0.85rem;
+    line-height: 1rem;
+  }
+}
+
+strong {
+  color: #111111;
+  font-weight: 600;
+}
+
+a {
+  word-break: break-word;
+  color: rgb(0, 84, 161);
+  text-decoration: underline;
+}
+
+a:hover {
+  text-decoration: none;
+}
+
+.autor {
+  color: rgb(0, 84, 161);
+}
+
+.referencia {
+  font-size: 0.85rem;
+  line-height: 1rem;
+  font-weight: 400;
+  letter-spacing: 0.15px;
+
+  @media (max-width: 768px) {
+    font-size: 0.75rem;
+    line-height: 1rem;
+  }
+}
+
+:root {
+  --background: #ffffff;
+}
+
+body {
+  color: var(--background);
+}
