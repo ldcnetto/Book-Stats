@@ -12,6 +12,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import ListItem from '@mui/material/ListItem';
 import CircularProgress from '@mui/material/CircularProgress';
 import BasicRating from '../BasicRating/basicRating';
+import DarkModeIcon from '@mui/icons-material/DarkMode';
 import Grid from '@mui/material/Grid2';
 
 const Search = styled('div')(({ theme }) => ({
@@ -132,7 +133,7 @@ export default function HeaderSearchAppBar() {
             color="inherit"
             aria-label="open drawer"
           >
-            <MenuIcon sx={{ color: '#111111' }} />
+            <DarkModeIcon sx={{ color: '#111111' }} />
           </IconButton>
         </Toolbar>
       </AppBar>
