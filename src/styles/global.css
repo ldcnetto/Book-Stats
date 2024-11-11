@@ -1,39 +1,30 @@
-/* Fontes */
 @import url('https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&family=Oswald:wght@200..700&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&family=Oswald:wght@200..700&display=swap');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+body {
+  margin: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif !important;
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease; /* Add transition for body */
+  background-color: #ffffff; /* Initial background color (light mode) */
+  color: #111111; /* Initial text color (light mode) */
+}
+
+body.dark-mode {
+  /* Styles for dark mode */
+  background-color: #1e2122;
+  color: #ffffff;
+}
+
 * {
   margin: 0;
   box-sizing: border-box;
   font-family: 'Poppins', sans-serif !important;
-}
-
-.darkMode {
-  h1,
-  h2,
-  h3,
-  h4,
-  h5,
-  h6,
-  p,
-  li,
-  strong {
-    color: #fff !important;
-  }
-  background-color: #121212 !important;
-}
-
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  font-family: 'Poppins', sans-serif !important;
-  color: #111111 !important;
 }
 
 h1 {
@@ -182,12 +173,4 @@ a:hover {
     font-size: 0.75rem;
     line-height: 1rem;
   }
-}
-
-:root {
-  --background: #ffffff;
-}
-
-body {
-  color: var(--background);
 }

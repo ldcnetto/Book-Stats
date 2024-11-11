@@ -1,71 +1,128 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import * as React from 'react';
+import { useState, useEffect } from 'react';
+import { styled } from '@mui/material/styles';
+import IconButton from '@mui/material/IconButton';
+import InputBase from '@mui/material/InputBase';
+import SearchIcon from '@mui/icons-material/Search';
 
 interface Book {
   id: string;
   volumeInfo: {
     title: string;
     authors?: string[];
+    averageRating?: number;
+    imageLinks?: {
+      thumbnail?: string;
+    };
   };
 }
 
-interface BookApiResponse {
-  items: Book[];
+interface SearchBarProps {
+  onSearchResults: (books: Book[]) => void;
+  onSearchLoading: (loading: boolean) => void;
+  onSearchError: (error: string | null) => void;
+  darkMode: boolean;
 }
 
-interface SearchBooksProps {
-  searchQuery: string;
-  onResults: (
-    books: Book[] | null,
-    error: string | null,
-    loading: boolean,
-  ) => void;
-}
+const Search = styled('div')(
+  ({ theme, darkMode }: { theme: any; darkMode: boolean }) => ({
+    position: 'relative',
+    borderRadius: '12px',
+    marginRight: '12px',
+    marginLeft: '12px',
+    width: '100%',
+    display: 'flex',
+    flexDirection: 'row',
+    maxWidth: '500px',
+    transition: 'background-color 0.2s ease',
+    backgroundColor: darkMode
+      ? 'rgba(255, 255, 255, 0.1)'
+      : 'rgba(152, 200, 184, 0.25)',
+    '&:hover': {
+      backgroundColor: darkMode
+        ? 'rgba(255, 255, 255, 0.2)'
+        : 'rgba(152, 200, 184, 0.45)',
+    },
+  }),
+);
 
-const SearchBooks: React.FC<SearchBooksProps> = ({
-  searchQuery,
-  onResults,
-}) => {
-  const [books, setBooks] = useState<Book[] | null>(null);
-  const [error, setError] = useState<string | null>(null);
-  const [loading, setLoading] = useState(false);
-  const API_KEY = import.meta.env.VITE_GOOGLE_BOOKS_API_KEY;
+const StyledInputBase = styled(InputBase)(
+  ({ theme, darkMode }: { theme: any; darkMode: boolean }) => ({
+    color: darkMode ? '#ffffff' : '#111111',
+    '& .MuiInputBase-input': {
+      transition: theme.transitions.create('width', { duration: 0.2 }),
+      width: '100%',
+      [theme.breakpoints.up('md')]: {
+        width: '20ch',
+      },
+    },
+  }),
+);
+
+export default function SearchBar({
+  onSearchResults,
+  onSearchLoading,
+  onSearchError,
+  darkMode,
+}: SearchBarProps) {
+  const [searchTerm, setSearchTerm] = useState('');
+  const [debouncedSearchTerm, setDebouncedSearchTerm] = useState('');
 
   useEffect(() => {
-    const fetchBooks = async () => {
+    const timer = setTimeout(() => {
+      setDebouncedSearchTerm(searchTerm);
+    }, 300);
+
+    return () => clearTimeout(timer);
+  }, [searchTerm]);
+
+  const handleSearch = async () => {
+    if (debouncedSearchTerm) {
+      onSearchLoading(true);
+      onSearchError(null);
+
       try {
-        setLoading(true);
-        if (!searchQuery) {
-          throw new Error('A query de busca não pode estar vazia.');
-        }
-
-        const encodedQuery = encodeURIComponent(searchQuery);
-        const response = await axios.get<BookApiResponse>(
-          `https://www.googleapis.com/books/v1/volumes?q=${encodedQuery}&key=${API_KEY}`,
+        const response = await fetch(
+          `https://www.googleapis.com/books/v1/volumes?q=${debouncedSearchTerm}&key=${import.meta.env.VITE_GOOGLE_BOOKS_API_KEY_2}&maxResults=21&orderBy=relevance&projection=full&startIndex=0`,
         );
-
-        setBooks(response.data.items);
-        setError(null); // Limpa qualquer erro anterior
-      } catch (error) {
-        console.error('Erro na busca de livros:', error);
-        setBooks(null); // Limpa os livros em caso de erro
-        if (axios.isAxiosError(error)) {
-          setError(error.message);
-        } else if (error instanceof Error) {
-          setError(error.message);
-        } else {
-          setError('Ocorreu um erro desconhecido: ' + String(error));
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
         }
+        const data = await response.json();
+        onSearchResults(data.items || []);
+      } catch (error) {
+        console.error('Error fetching books:', error);
+        onSearchError(error instanceof Error ? error.message : String(error));
       } finally {
-        setLoading(false);
-        onResults(books, error, loading); // Callback com os resultados
+        onSearchLoading(false);
       }
-    };
+    } else {
+      onSearchResults([]);
+    }
+  };
 
-    fetchBooks();
-  }, [searchQuery, onResults]);
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === 'Enter') {
+      handleSearch();
+    }
+  };
 
-  return null; //  Este componente não renderiza nada diretamente
-};
-
-export default SearchBooks;
+  return (
+    <Search darkMode={darkMode}>
+      <IconButton>
+        <SearchIcon
+          sx={{ color: darkMode ? '#ffffff' : '#111111' }}
+          onClick={handleSearch}
+        />
+      </IconButton>
+      <StyledInputBase
+        darkMode={darkMode}
+        placeholder="Pesquisar…"
+        inputProps={{ 'aria-label': 'search' }}
+        value={searchTerm}
+        onChange={(e) => setSearchTerm(e.target.value)}
+        onKeyDown={handleKeyDown}
+      />
+    </Search>
+  );
+}
