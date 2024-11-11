@@ -4,18 +4,31 @@ import Rating from '@mui/material/Rating';
 
 interface BasicRatingProps {
   initialValue?: number | null;
+  darkMode: boolean; // Add darkMode prop
 }
 
-export default function BasicRating({ initialValue = null }: BasicRatingProps) {
+export default function BasicRating({
+  initialValue = null,
+  darkMode,
+}: BasicRatingProps) {
+  const textColor = darkMode ? '#ffffff' : '#111111'; // Dynamic text color
+
   return (
-    <Box sx={{ width: '100%', display: 'flex', flexDirection: 'column' }}>
+    <Box
+      sx={{
+        width: '100%',
+        display: 'flex',
+        flexDirection: 'column',
+        color: textColor,
+      }}
+    >
       {initialValue !== null ? (
         <Box
           sx={{
             display: 'flex',
             flexDirection: 'row',
             alignItems: 'center',
-            gap: '4px',
+            gap: '8px',
           }}
         >
           <Rating
@@ -23,17 +36,20 @@ export default function BasicRating({ initialValue = null }: BasicRatingProps) {
             value={initialValue}
             readOnly
             precision={0.5}
-            sx={{ display: 'flex' }}
+            sx={{
+              display: 'flex',
+              color: darkMode ? '#DFDFDF' : '',
+            }}
           />
           <p
             style={{
-              color: '#DFDFDF',
+              color: darkMode ? '#444444' : '#DFDFDF', // Dynamic border color
               border: '1px solid',
               padding: '2px 4px 1px 4px',
             }}
             className="referencia"
           >
-            <span style={{ color: '#111111' }}>{initialValue}</span>
+            <span style={{ color: textColor }}>{initialValue}</span>{' '}
           </p>
         </Box>
       ) : (
@@ -42,10 +58,18 @@ export default function BasicRating({ initialValue = null }: BasicRatingProps) {
             display: 'flex',
             flexDirection: 'row',
             alignItems: 'center',
-            gap: '4px',
           }}
         >
-          <Rating name="disabled" value={null} disabled />
+          <p
+            style={{
+              color: darkMode ? '#444444' : '#DFDFDF', // Dynamic border color
+              border: '1px solid',
+              padding: '2px 4px 1px 4px',
+            }}
+            className="referencia"
+          >
+            <span style={{ color: textColor }}>Sem Avaliação</span>{' '}
+          </p>
         </Box>
       )}
     </Box>
