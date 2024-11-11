@@ -86,6 +86,12 @@ export default function HeaderSearchAppBar() {
     }
   };
 
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === 'Enter') {
+      handleSearch();
+    }
+  };
+
   return (
     <Box sx={{ justifyContent: 'space-between' }}>
       <AppBar
@@ -124,6 +130,7 @@ export default function HeaderSearchAppBar() {
               inputProps={{ 'aria-label': 'search' }}
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
+              onKeyDown={handleKeyDown}
             />
           </Search>
 
