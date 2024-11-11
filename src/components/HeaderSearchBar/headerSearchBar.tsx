@@ -1,52 +1,34 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import * as React from 'react';
 import { useState, useEffect } from 'react';
-import { styled, alpha } from '@mui/material/styles';
+import { styled } from '@mui/material/styles';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
-import Typography from '@mui/material/Typography';
 import InputBase from '@mui/material/InputBase';
 import MenuIcon from '@mui/icons-material/Menu';
 import SearchIcon from '@mui/icons-material/Search';
-import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
-import ListItemText from '@mui/material/ListItemText';
 import CircularProgress from '@mui/material/CircularProgress';
+import BasicRating from '../BasicRating/basicRating';
+import Grid from '@mui/material/Grid2';
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
-  borderRadius: theme.shape.borderRadius,
-  backgroundColor: alpha(theme.palette.common.white, 0.15),
+  backgroundColor: 'rgb(152,200,184, 0.25)',
   '&:hover': {
-    backgroundColor: alpha(theme.palette.common.white, 0.25),
+    backgroundColor: 'rgb(152,200,184, 0.45)',
   },
-  marginRight: theme.spacing(2),
-  marginLeft: 0,
+  borderRadius: '12px',
+  marginRight: '12px',
+  marginLeft: '12px',
   width: '100%',
-  [theme.breakpoints.up('sm')]: {
-    marginLeft: theme.spacing(3),
-    width: 'auto',
-  },
-}));
-
-const SearchIconWrapper = styled('div')(({ theme }) => ({
-  padding: theme.spacing(0, 2),
-  height: '100%',
-  position: 'absolute',
-  pointerEvents: 'none',
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
 }));
 
 const StyledInputBase = styled(InputBase)(({ theme }) => ({
   color: 'inherit',
   '& .MuiInputBase-input': {
-    padding: theme.spacing(1, 1, 1, 0),
-    // vertical padding + font size from searchIcon
-    paddingLeft: `calc(1em + ${theme.spacing(4)})`,
     transition: theme.transitions.create('width'),
     width: '100%',
     [theme.breakpoints.up('md')]: {
@@ -70,7 +52,7 @@ export default function HeaderSearchAppBar() {
     return () => clearTimeout(timer);
   }, [searchTerm]);
 
-  useEffect(() => {
+  const handleSearch = () => {
     if (debouncedSearchTerm) {
       setSearchResults([]);
       setSearchError(null);
@@ -79,7 +61,8 @@ export default function HeaderSearchAppBar() {
       const fetchBooks = async () => {
         try {
           const response = await fetch(
-            `https://www.googleapis.com/books/v1/volumes?q=${debouncedSearchTerm}&key=${import.meta.env.VITE_GOOGLE_BOOKS_API_KEY}`,
+            `https://www.googleapis.com/books/v1/volumes?q=${debouncedSearchTerm}&key=${import.meta.env.VITE_GOOGLE_BOOKS_API_KEY_2}&maxResults=21&orderBy=relevance&projection=full&startIndex=0`,
+            // trasnformar o start index em uma função pra usar o pagination
           );
           if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
@@ -100,13 +83,13 @@ export default function HeaderSearchAppBar() {
     } else {
       setSearchResults([]);
     }
-  }, [debouncedSearchTerm]);
+  };
 
   return (
     <Box sx={{ justifyContent: 'space-between' }}>
       <AppBar
         sx={{
-          bgcolor: '#7839e8 !important',
+          bgcolor: '#f1f1f1 !important',
           display: 'flex',
           width: '100% !important',
           alignItems: 'flex-start',
@@ -121,21 +104,21 @@ export default function HeaderSearchAppBar() {
             justifyContent: 'space-between',
           }}
         >
-          <Typography
-            variant="h5"
-            noWrap
-            component="div"
-            sx={{ display: { sm: 'block' }, minWidth: '120px', mr: 2 }}
-          >
-            BookStats
-          </Typography>
+          <h5 className="flex !max-w-[100px]">BOOKSTATS</h5>
 
-          <Search sx={{ width: '100% !important', maxWidth: '1000px' }}>
-            <SearchIconWrapper>
-              <SearchIcon />
-            </SearchIconWrapper>
+          <Search
+            sx={{
+              width: '100%',
+              maxWidth: '500px',
+              display: 'flex',
+              flexDirection: 'row',
+            }}
+          >
+            <IconButton>
+              <SearchIcon sx={{ color: '#111111' }} onClick={handleSearch} />
+            </IconButton>
             <StyledInputBase
-              sx={{ width: '100% !important' }}
+              sx={{ width: '100%', color: '#111111' }}
               placeholder="Search…"
               inputProps={{ 'aria-label': 'search' }}
               value={searchTerm}
@@ -148,34 +131,91 @@ export default function HeaderSearchAppBar() {
             edge="start"
             color="inherit"
             aria-label="open drawer"
-            sx={{ ml: 2 }}
           >
-            <MenuIcon />
+            <MenuIcon sx={{ color: '#111111' }} />
           </IconButton>
         </Toolbar>
       </AppBar>
 
       {searchLoading && (
-        <Box sx={{ display: 'flex' }}>
+        <Box sx={{ display: 'flex', justifyContent: 'center' }}>
           <CircularProgress />
         </Box>
       )}
       {searchError && <div>Erro: {searchError}</div>}
       {!searchLoading && !searchError && searchResults && (
-        <List>
+        <Grid
+          container
+          spacing={2}
+          sx={{
+            display: 'flex',
+            maxWidth: '1200px',
+            margin: '20px auto',
+            padding: '0',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}
+        >
           {searchResults.map((book) => (
-            <ListItem key={book.id}>
-              <ListItemText
-                primary={book.volumeInfo.title}
-                secondary={
-                  book.volumeInfo.authors &&
-                  `By: ${book.volumeInfo.authors.join(', ')}`
-                }
-                // tertiary={<img src={book.volumeInfo.imageLinks.thumbnail}}
-              />
-            </ListItem>
+            <Grid
+              key={book.id}
+              xs={12} // Tamanho completo para mobile (1 coluna)
+              sm={6} // 2 colunas para telas pequenas
+              md={4} // 3 colunas para telas médias
+              lg={3} // 4 colunas para telas grandes
+              display="flex"
+              justifyContent="flex-start"
+              alignItems="flex-start"
+              sx={{
+                display: 'flex',
+                alignItems: 'flex-start',
+                justifyContent: 'flex-start',
+                padding: '0 !important',
+                height: '420px',
+              }}
+            >
+              <ListItem
+                sx={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'flex-start',
+                  justifyContent: 'flex-start',
+                  padding: '0 !important',
+                  height: '100%',
+                  maxHeight: '500px',
+                }}
+              >
+                <Box
+                  sx={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    bgcolor: '#f5f5f5',
+                    height: '300px',
+                    width: '300px',
+                  }}
+                >
+                  <img
+                    src={book.volumeInfo.imageLinks?.thumbnail || ''}
+                    alt={book.volumeInfo.title}
+                    style={{ maxHeight: '100%', maxWidth: '100%' }}
+                  />
+                </Box>
+                <Box sx={{ width: '252px', marginTop: 1 }}>
+                  <p className="flex">
+                    <strong>{book.volumeInfo.title}</strong>
+                  </p>
+                  <p className="flex autor referencia">
+                    {book.volumeInfo.authors &&
+                      book.volumeInfo.authors.join(' · ')}
+                  </p>
+                  <BasicRating initialValue={book.volumeInfo.averageRating} />
+                </Box>
+              </ListItem>
+            </Grid>
           ))}
-        </List>
+        </Grid>
       )}
     </Box>
   );
