@@ -13,5 +13,12 @@ createRoot(document.getElementById('root')!).render(
       </div>
       <div className="max-w-[50%] w-full"></div>
     </div>
+    <div className="flex flex-row w-full">
+      <div className="flex flex-col max-w-[50%]">
+        <App />
+      </div>
+      <div className="max-w-[50%] w-full"></div>
+    </div>
   </StrictMode>,
+);
 );
