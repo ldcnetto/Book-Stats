@@ -7,6 +7,7 @@ import Header from './components/Header/header.tsx';
 import { Book } from './services/SearchBooks';
 import GenreFilter from './components/Categories/categories.tsx';
 import useMediaQuery from '@mui/material/useMediaQuery';
+import ShowCategories from './components/ShowCategories/showCategories.tsx';
 
 function App() {
   const [books, setBooks] = useState<Book[]>([]);
@@ -42,7 +43,7 @@ function App() {
       )}
 
       <Layout>
-        {showGridItems ? ( // Renderização condicional
+        {showGridItems ? (
           <GridItems
             searchLoading={searchLoading}
             searchError={searchError}
@@ -50,7 +51,17 @@ function App() {
             darkMode={appDarkMode}
           />
         ) : (
-          <GenreFilter darkMode={appDarkMode} />
+          <div
+            style={{ display: 'flex', flexDirection: 'column', width: '100%' }}
+          >
+            <GenreFilter darkMode={appDarkMode} />
+            <ShowCategories darkMode={appDarkMode} selectedGenre="Cookbooks" />
+            <ShowCategories darkMode={appDarkMode} selectedGenre="Horror" />
+            <ShowCategories darkMode={appDarkMode} selectedGenre="Fantasy" />
+            <ShowCategories darkMode={appDarkMode} selectedGenre="Drama" />
+            <ShowCategories darkMode={appDarkMode} selectedGenre="Poetry" />
+            <ShowCategories darkMode={appDarkMode} selectedGenre="Biography" />
+          </div>
         )}
       </Layout>
     </div>
