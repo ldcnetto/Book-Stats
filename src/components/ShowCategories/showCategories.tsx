@@ -129,7 +129,13 @@ export default function showCategories({
               margin: '0 0 10px 0',
             }}
           >
-            <strong>Estatísticas: distribuição das notas</strong>
+            <strong
+              style={{
+                color: darkMode ? '#f5f5f5' : '#262829',
+              }}
+            >
+              Estatísticas: distribuição das notas
+            </strong>
           </p>
           <Box
             sx={{
@@ -331,11 +337,16 @@ export default function showCategories({
           <p
             style={{
               display: 'flex',
-              color: darkMode ? '#f5f5f5' : '#262829',
               margin: '0 0 10px 0',
             }}
           >
-            <strong>Estatísticas: distribuição das notas</strong>
+            <strong
+              style={{
+                color: darkMode ? '#f5f5f5' : '#262829',
+              }}
+            >
+              Estatísticas: distribuição das notas
+            </strong>
           </p>
           <Box
             sx={{
