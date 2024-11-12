@@ -52,9 +52,6 @@ const StyledInputBase = styled(InputBase)(
     '& .MuiInputBase-input': {
       transition: theme.transitions.create('width', { duration: 0.2 }),
       width: '100%',
-      [theme.breakpoints.up('md')]: {
-        width: '20ch',
-      },
     },
   }),
 );
@@ -118,6 +115,7 @@ export default function SearchBar({
       <StyledInputBase
         darkMode={darkMode}
         placeholder="Pesquisar…"
+        sx={{ width: '90%' }}
         inputProps={{ 'aria-label': 'search' }}
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}

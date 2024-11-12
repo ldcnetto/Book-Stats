@@ -16,6 +16,7 @@
     "@emotion/styled": "^11.13.0",
     "@mui/icons-material": "latest",
     "@mui/material": "^6.1.6",
+    "@mui/x-charts": "^7.22.2",
     "axios": "^1.7.7",
     "eslint-config-airbnb-typescript": "^18.0.0",
     "react": "latest",
