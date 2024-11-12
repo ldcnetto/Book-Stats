@@ -53,7 +53,7 @@ export default function Header({
           bgcolor: appBarColor,
           boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.2)',
           position: 'fixed',
-          zIndex: '1',
+          zIndex: '10',
         }}
       >
         {isBigScreen ? (
