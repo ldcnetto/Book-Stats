@@ -7,6 +7,8 @@ import IconButton from '@mui/material/IconButton';
 import DarkModeIcon from '@mui/icons-material/DarkMode';
 import LightModeIcon from '@mui/icons-material/LightMode';
 import SearchBar, { Book } from '../../services/SearchBooks';
+import QueryStatsIcon from '@mui/icons-material/QueryStats';
+import useMediaQuery from '@mui/material/useMediaQuery';
 
 interface HeaderProps {
   onSearchResults: (books: Book[]) => void;
@@ -40,6 +42,8 @@ export default function Header({
   const iconColor = darkMode ? '#ffffff' : '#111111';
   const appBarColor = darkMode ? '#111111' : '#f5f5f5';
 
+  const isBigScreen = useMediaQuery('(min-width:580px)');
+
   return (
     <Box sx={{ flexGrow: 1 }}>
       {' '}
@@ -47,30 +51,100 @@ export default function Header({
         position="static"
         sx={{
           bgcolor: appBarColor,
-          boxShadow: 'none',
+          boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.2)',
           position: 'fixed',
           zIndex: '1',
         }}
       >
-        <Toolbar sx={{ justifyContent: 'space-between' }}>
-          {' '}
-          <h5 style={{ color: iconColor }}>BOOKSTATS</h5>{' '}
-          <SearchBar
-            onSearchResults={onSearchResults}
-            onSearchLoading={onSearchLoading}
-            onSearchError={onSearchError}
-            darkMode={darkMode}
-          />
-          <IconButton edge="end" color="inherit" onClick={toggleDarkMode}>
+        {isBigScreen ? (
+          <Toolbar sx={{ justifyContent: 'space-between' }}>
             {' '}
-            {/* Added edge prop */}
-            {darkMode ? (
-              <LightModeIcon sx={{ color: iconColor }} />
-            ) : (
-              <DarkModeIcon sx={{ color: iconColor }} />
-            )}
-          </IconButton>
-        </Toolbar>
+            <div
+              style={{
+                display: 'flex',
+                flexDirection: 'row',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: '4px',
+              }}
+            >
+              <QueryStatsIcon sx={{ color: iconColor }} />{' '}
+              <h5 style={{ color: iconColor }}>BOOKSTATS</h5>
+            </div>
+            <SearchBar
+              onSearchResults={onSearchResults}
+              onSearchLoading={onSearchLoading}
+              onSearchError={onSearchError}
+              darkMode={darkMode}
+            />
+            <IconButton edge="end" color="inherit" onClick={toggleDarkMode}>
+              {' '}
+              {/* Added edge prop */}
+              {darkMode ? (
+                <LightModeIcon sx={{ color: iconColor }} />
+              ) : (
+                <DarkModeIcon sx={{ color: iconColor }} />
+              )}
+            </IconButton>
+          </Toolbar>
+        ) : (
+          <Toolbar
+            sx={{
+              justifyContent: 'space-between',
+              display: 'flex',
+              flexDirection: 'column',
+            }}
+          >
+            {' '}
+            <div
+              style={{
+                display: 'flex',
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+                width: '100%',
+              }}
+            >
+              <div
+                style={{
+                  display: 'flex',
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  gap: '4px',
+                }}
+              >
+                <QueryStatsIcon sx={{ color: iconColor }} />{' '}
+                <h5 style={{ color: iconColor }}>BOOKSTATS</h5>
+              </div>
+
+              <IconButton edge="end" color="inherit" onClick={toggleDarkMode}>
+                {' '}
+                {/* Added edge prop */}
+                {darkMode ? (
+                  <LightModeIcon sx={{ color: iconColor }} />
+                ) : (
+                  <DarkModeIcon sx={{ color: iconColor }} />
+                )}
+              </IconButton>
+            </div>
+            <div
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                margin: '4px 0px 8px 0px',
+                width: '100%',
+              }}
+            >
+              <SearchBar
+                onSearchResults={onSearchResults}
+                onSearchLoading={onSearchLoading}
+                onSearchError={onSearchError}
+                darkMode={darkMode}
+              />
+            </div>
+          </Toolbar>
+        )}
       </AppBar>
     </Box>
   );
