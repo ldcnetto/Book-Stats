@@ -10,6 +10,7 @@ import ListItem from '@mui/material/ListItem';
 import BasicRating from '../BasicRating/basicRating';
 import CropFreeTwoToneIcon from '@mui/icons-material/CropFreeTwoTone';
 import { PieChart } from '@mui/x-charts/PieChart';
+import useMediaQuery from '@mui/material/useMediaQuery';
 
 interface Book {
   id: string;
@@ -70,6 +71,7 @@ export default function GenreFilter({ darkMode }: { darkMode: boolean }) {
   const [searchError, setSearchError] = useState<string | null>(null);
 
   const gridBackgroundColor = darkMode ? '#262829' : '#f5f5f5';
+  const isBigScreen = useMediaQuery('(min-width:580px)');
 
   useEffect(() => {
     const fetchBooks = async () => {
@@ -122,228 +124,479 @@ export default function GenreFilter({ darkMode }: { darkMode: boolean }) {
   }));
 
   return (
-    <Box
-      sx={{
-        display: 'flex',
-        flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: 'center',
-        width: '100%',
-      }}
-    >
-      <Box
-        sx={{
-          width: '100%',
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          justifyContent: 'center',
-        }}
-      >
+    <div>
+      {isBigScreen ? (
         <Box
           sx={{
-            width: '100%',
             display: 'flex',
             flexDirection: 'row',
-            alignItems: 'end',
-            justifyContent: 'start',
+            alignItems: 'center',
+            justifyContent: 'center',
+            width: '100%',
           }}
         >
-          <FormControl
-            sx={{ m: 1, minWidth: 120, color: darkMode ? '#fff' : '#000' }}
-          >
-            {' '}
-            <InputLabel
-              id="genre-select-label"
-              sx={{ color: darkMode ? '#fff' : '#000' }}
-            >
-              {' '}
-              Gênero
-            </InputLabel>
-            <Select
-              labelId="genre-select-label"
-              id="genre-select"
-              value={selectedGenre}
-              label="Genre"
-              onChange={handleChange}
-              sx={{
-                backgroundColor: darkMode ? '#333' : '#fff',
-                color: darkMode ? '#fff' : '#000',
-                '.MuiOutlinedInput-notchedOutline': {
-                  borderColor: darkMode ? '#fff' : '#000',
-                },
-                '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
-                  borderColor: darkMode ? '#fff' : '#000',
-                },
-                svg: {
-                  fill: darkMode ? '#fff' : '#000',
-                },
-              }}
-              MenuProps={{
-                PaperProps: {
-                  sx: {
-                    backgroundColor: darkMode ? '#333' : '#fff',
-                    color: darkMode ? '#fff' : '#000',
-                  },
-                },
-              }}
-            >
-              <MenuItem value="">
-                <em>None</em>
-              </MenuItem>
-              {genres.map((genre) => (
-                <MenuItem key={genre} value={genre}>
-                  {genre}
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
-        </Box>
-        {searchLoading && (
           <Box
             sx={{
+              width: '100%',
               display: 'flex',
-              justifyContent: 'center',
+              flexDirection: 'column',
               alignItems: 'center',
-              paddingTop: '300px',
+              justifyContent: 'center',
             }}
           >
-            <CircularProgress />
-          </Box>
-        )}
-
-        {searchError && (
-          <Box sx={{ display: 'flex', justifyContent: 'center', color: 'red' }}>
-            <p>Error: {searchError}</p>
-          </Box>
-        )}
-        <Box
-          sx={{
-            overflowX: 'scroll',
-            maxWidth: '100%',
-            display:
-              selectedGenre && !searchLoading && !searchError ? 'flex' : 'none',
-            flexDirection: 'row',
-            paddingBottom: '20px',
-            alignItems: 'center',
-          }}
-        >
-          <Box sx={{ mr: 2 }}>
-            {' '}
-            {filteredBooks.length > 0 && (
-              <PieChart
-                colors={ratingColors}
-                series={[
-                  {
-                    data: pieChartData,
-                  },
-                ]}
-                width={400}
-                height={200}
-                sx={{
-                  '& .MuiChartsAxis-root text': {
-                    fill: darkMode ? '#fff' : '#fff',
-                  },
-                }}
-              />
-            )}
-          </Box>
-
-          <div style={{ display: 'flex', flexDirection: 'row', gap: '12px' }}>
-            {filteredBooks.map((book) => (
-              <ListItem
-                key={book.id}
-                onClick={() => {
-                  window.open(book.volumeInfo.canonicalVolumeLink, '_blank');
-                }}
+            <Box
+              sx={{
+                width: '100%',
+                display: 'flex',
+                flexDirection: 'row',
+                alignItems: 'end',
+                justifyContent: 'start',
+              }}
+            >
+              <FormControl
+                sx={{ m: 1, minWidth: 120, color: darkMode ? '#fff' : '#000' }}
+              >
+                {' '}
+                <InputLabel
+                  id="genre-select-label"
+                  sx={{ color: darkMode ? '#fff' : '#000' }}
+                >
+                  {' '}
+                  Gênero
+                </InputLabel>
+                <Select
+                  labelId="genre-select-label"
+                  id="genre-select"
+                  value={selectedGenre}
+                  label="Genre"
+                  onChange={handleChange}
+                  sx={{
+                    backgroundColor: darkMode ? '#333' : '#fff',
+                    color: darkMode ? '#fff' : '#000',
+                    '.MuiOutlinedInput-notchedOutline': {
+                      borderColor: darkMode ? '#fff' : '#000',
+                    },
+                    '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+                      borderColor: darkMode ? '#fff' : '#000',
+                    },
+                    svg: {
+                      fill: darkMode ? '#fff' : '#000',
+                    },
+                  }}
+                  MenuProps={{
+                    PaperProps: {
+                      sx: {
+                        backgroundColor: darkMode ? '#333' : '#fff',
+                        color: darkMode ? '#fff' : '#000',
+                      },
+                    },
+                  }}
+                >
+                  <MenuItem value="">
+                    <em>None</em>
+                  </MenuItem>
+                  {genres.map((genre) => (
+                    <MenuItem key={genre} value={genre}>
+                      {genre}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+            </Box>
+            {searchLoading && (
+              <Box
                 sx={{
                   display: 'flex',
-                  flexDirection: 'column',
-                  alignItems: 'flex-start',
-                  justifyContent: 'flex-start',
-                  padding: '0 !important',
-                  maxWidth: '200px',
-                  height: '100%',
-                  maxHeight: '500px',
-                  cursor: 'pointer',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  paddingTop: '300px',
                 }}
               >
-                <Box
-                  sx={{
-                    display: 'flex',
-                    flexDirection: 'column',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    bgcolor: gridBackgroundColor,
-                    height: '300px',
-                    width: '200px',
-                  }}
-                >
-                  {book.volumeInfo.imageLinks?.thumbnail ? (
-                    <img
-                      src={book.volumeInfo.imageLinks.thumbnail}
-                      alt={book.volumeInfo.title}
-                      style={{ maxHeight: '100%', maxWidth: '100%' }}
-                    />
-                  ) : (
-                    <CropFreeTwoToneIcon
+                <CircularProgress />
+              </Box>
+            )}
+
+            {searchError && (
+              <Box
+                sx={{ display: 'flex', justifyContent: 'center', color: 'red' }}
+              >
+                <p>Error: {searchError}</p>
+              </Box>
+            )}
+            <Box
+              sx={{
+                overflowX: 'scroll',
+                maxWidth: '100%',
+                display:
+                  selectedGenre && !searchLoading && !searchError
+                    ? 'flex'
+                    : 'none',
+                flexDirection: 'row',
+                paddingBottom: '20px',
+                alignItems: 'center',
+              }}
+            >
+              <Box sx={{ mr: 2 }}>
+                {' '}
+                {filteredBooks.length > 0 && (
+                  <PieChart
+                    colors={ratingColors}
+                    series={[
+                      {
+                        data: pieChartData,
+                      },
+                    ]}
+                    width={400}
+                    height={200}
+                    sx={{
+                      '& .MuiChartsAxis-root text': {
+                        fill: darkMode ? '#fff' : '#fff',
+                      },
+                    }}
+                  />
+                )}
+              </Box>
+
+              <div
+                style={{ display: 'flex', flexDirection: 'row', gap: '12px' }}
+              >
+                {filteredBooks.map((book) => (
+                  <ListItem
+                    key={book.id}
+                    onClick={() => {
+                      window.open(
+                        book.volumeInfo.canonicalVolumeLink,
+                        '_blank',
+                      );
+                    }}
+                    sx={{
+                      display: 'flex',
+                      flexDirection: 'column',
+                      alignItems: 'flex-start',
+                      justifyContent: 'flex-start',
+                      padding: '0 !important',
+                      maxWidth: '200px',
+                      height: '100%',
+                      maxHeight: '500px',
+                      cursor: 'pointer',
+                    }}
+                  >
+                    <Box
                       sx={{
-                        fontSize: 80,
-                        color: darkMode ? '#f5f5f5' : '#262829',
-                      }}
-                    />
-                  )}
-                </Box>
-                <Box
-                  sx={{
-                    width: '200px',
-                    marginTop: 1,
-                    display: 'flex',
-                    flexDirection: 'column',
-                    gap: '4px',
-                  }}
-                >
-                  <p style={{ display: 'flex', maxWidth: '200px' }}>
-                    <strong
-                      style={{
-                        color: darkMode ? '#ffffff' : '#111111',
-                        maxWidth: '200px',
+                        display: 'flex',
+                        flexDirection: 'column',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        bgcolor: gridBackgroundColor,
+                        height: '300px',
+                        width: '200px',
                       }}
                     >
-                      {book.volumeInfo.title}
-                    </strong>
-                  </p>
-                  <p
-                    className="flex autor referencia"
-                    style={{
-                      display: 'flex',
-                      color: darkMode ? '#bab1a3' : '#111111',
-                    }}
-                  >
-                    <strong style={{ color: darkMode ? '#ffffff' : '#111111' }}>
-                      {book.volumeInfo.categories}
-                    </strong>
-                  </p>
-                  <p
-                    className="flex autor referencia"
-                    style={{
-                      display: 'flex',
-                      color: darkMode ? '#bab1a3' : '#111111',
-                    }}
-                  >
-                    {book.volumeInfo.authors &&
-                      book.volumeInfo.authors.join(' · ')}
-                  </p>
-                  <BasicRating
-                    darkMode={darkMode}
-                    initialValue={book.volumeInfo.averageRating}
-                  />
-                </Box>
-              </ListItem>
-            ))}
-          </div>
+                      {book.volumeInfo.imageLinks?.thumbnail ? (
+                        <img
+                          src={book.volumeInfo.imageLinks.thumbnail}
+                          alt={book.volumeInfo.title}
+                          style={{ maxHeight: '100%', maxWidth: '100%' }}
+                        />
+                      ) : (
+                        <CropFreeTwoToneIcon
+                          sx={{
+                            fontSize: 80,
+                            color: darkMode ? '#f5f5f5' : '#262829',
+                          }}
+                        />
+                      )}
+                    </Box>
+                    <Box
+                      sx={{
+                        width: '200px',
+                        marginTop: 1,
+                        display: 'flex',
+                        flexDirection: 'column',
+                        gap: '4px',
+                      }}
+                    >
+                      <p style={{ display: 'flex', maxWidth: '200px' }}>
+                        <strong
+                          style={{
+                            color: darkMode ? '#ffffff' : '#111111',
+                            maxWidth: '200px',
+                          }}
+                        >
+                          {book.volumeInfo.title}
+                        </strong>
+                      </p>
+                      <p
+                        className="flex autor referencia"
+                        style={{
+                          display: 'flex',
+                          color: darkMode ? '#bab1a3' : '#111111',
+                        }}
+                      >
+                        <strong
+                          style={{ color: darkMode ? '#ffffff' : '#111111' }}
+                        >
+                          {book.volumeInfo.categories}
+                        </strong>
+                      </p>
+                      <p
+                        className="flex autor referencia"
+                        style={{
+                          display: 'flex',
+                          color: darkMode ? '#bab1a3' : '#111111',
+                        }}
+                      >
+                        {book.volumeInfo.authors &&
+                          book.volumeInfo.authors.join(' · ')}
+                      </p>
+                      <BasicRating
+                        darkMode={darkMode}
+                        initialValue={book.volumeInfo.averageRating}
+                      />
+                    </Box>
+                  </ListItem>
+                ))}
+              </div>
+            </Box>
+          </Box>
         </Box>
-      </Box>
-    </Box>
+      ) : (
+        <Box
+          sx={{
+            display: 'flex',
+            flexDirection: 'row',
+            alignItems: 'center',
+            justifyContent: 'center',
+            width: '100%',
+          }}
+        >
+          <Box
+            sx={{
+              width: '100%',
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}
+          >
+            <Box
+              sx={{
+                width: '100%',
+                display: 'flex',
+                flexDirection: 'row',
+                alignItems: 'end',
+                justifyContent: 'start',
+              }}
+            >
+              <FormControl
+                sx={{ m: 1, minWidth: 120, color: darkMode ? '#fff' : '#000' }}
+              >
+                {' '}
+                <InputLabel
+                  id="genre-select-label"
+                  sx={{ color: darkMode ? '#fff' : '#000' }}
+                >
+                  {' '}
+                  Gênero
+                </InputLabel>
+                <Select
+                  labelId="genre-select-label"
+                  id="genre-select"
+                  value={selectedGenre}
+                  label="Genre"
+                  onChange={handleChange}
+                  sx={{
+                    backgroundColor: darkMode ? '#333' : '#fff',
+                    color: darkMode ? '#fff' : '#000',
+                    '.MuiOutlinedInput-notchedOutline': {
+                      borderColor: darkMode ? '#fff' : '#000',
+                    },
+                    '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+                      borderColor: darkMode ? '#fff' : '#000',
+                    },
+                    svg: {
+                      fill: darkMode ? '#fff' : '#000',
+                    },
+                  }}
+                  MenuProps={{
+                    PaperProps: {
+                      sx: {
+                        backgroundColor: darkMode ? '#333' : '#fff',
+                        color: darkMode ? '#fff' : '#000',
+                      },
+                    },
+                  }}
+                >
+                  <MenuItem value="">
+                    <em>None</em>
+                  </MenuItem>
+                  {genres.map((genre) => (
+                    <MenuItem key={genre} value={genre}>
+                      {genre}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+            </Box>
+            {searchLoading && (
+              <Box
+                sx={{
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  paddingTop: '300px',
+                }}
+              >
+                <CircularProgress />
+              </Box>
+            )}
+
+            {searchError && (
+              <Box
+                sx={{ display: 'flex', justifyContent: 'center', color: 'red' }}
+              >
+                <p>Error: {searchError}</p>
+              </Box>
+            )}
+
+            <Box sx={{ marginBottom: '20px' }}>
+              {' '}
+              {filteredBooks.length > 0 && (
+                <PieChart
+                  colors={ratingColors}
+                  series={[
+                    {
+                      data: pieChartData,
+                    },
+                  ]}
+                  width={400}
+                  height={200}
+                  sx={{
+                    '& .MuiChartsAxis-root text': {
+                      fill: darkMode ? '#fff' : '#fff',
+                    },
+                  }}
+                />
+              )}
+            </Box>
+
+            <Box
+              sx={{
+                overflowX: 'scroll',
+                maxWidth: '100%',
+                display:
+                  selectedGenre && !searchLoading && !searchError
+                    ? 'flex'
+                    : 'none',
+                flexDirection: 'row',
+                paddingBottom: '20px',
+                alignItems: 'center',
+              }}
+            >
+              <div
+                style={{ display: 'flex', flexDirection: 'row', gap: '12px' }}
+              >
+                {filteredBooks.map((book) => (
+                  <ListItem
+                    key={book.id}
+                    onClick={() => {
+                      window.open(
+                        book.volumeInfo.canonicalVolumeLink,
+                        '_blank',
+                      );
+                    }}
+                    sx={{
+                      display: 'flex',
+                      flexDirection: 'column',
+                      alignItems: 'flex-start',
+                      justifyContent: 'flex-start',
+                      padding: '0 !important',
+                      maxWidth: '200px',
+                      height: '100%',
+                      maxHeight: '500px',
+                      cursor: 'pointer',
+                    }}
+                  >
+                    <Box
+                      sx={{
+                        display: 'flex',
+                        flexDirection: 'column',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        bgcolor: gridBackgroundColor,
+                        height: '300px',
+                        width: '200px',
+                      }}
+                    >
+                      {book.volumeInfo.imageLinks?.thumbnail ? (
+                        <img
+                          src={book.volumeInfo.imageLinks.thumbnail}
+                          alt={book.volumeInfo.title}
+                          style={{ maxHeight: '100%', maxWidth: '100%' }}
+                        />
+                      ) : (
+                        <CropFreeTwoToneIcon
+                          sx={{
+                            fontSize: 80,
+                            color: darkMode ? '#f5f5f5' : '#262829',
+                          }}
+                        />
+                      )}
+                    </Box>
+                    <Box
+                      sx={{
+                        width: '200px',
+                        marginTop: 1,
+                        display: 'flex',
+                        flexDirection: 'column',
+                        gap: '4px',
+                      }}
+                    >
+                      <p style={{ display: 'flex', maxWidth: '200px' }}>
+                        <strong
+                          style={{
+                            color: darkMode ? '#ffffff' : '#111111',
+                            maxWidth: '200px',
+                          }}
+                        >
+                          {book.volumeInfo.title}
+                        </strong>
+                      </p>
+                      <p
+                        className="flex autor referencia"
+                        style={{
+                          display: 'flex',
+                          color: darkMode ? '#bab1a3' : '#111111',
+                        }}
+                      >
+                        <strong
+                          style={{ color: darkMode ? '#ffffff' : '#111111' }}
+                        >
+                          {book.volumeInfo.categories}
+                        </strong>
+                      </p>
+                      <p
+                        className="flex autor referencia"
+                        style={{
+                          display: 'flex',
+                          color: darkMode ? '#bab1a3' : '#111111',
+                        }}
+                      >
+                        {book.volumeInfo.authors &&
+                          book.volumeInfo.authors.join(' · ')}
+                      </p>
+                      <BasicRating
+                        darkMode={darkMode}
+                        initialValue={book.volumeInfo.averageRating}
+                      />
+                    </Box>
+                  </ListItem>
+                ))}
+              </div>
+            </Box>
+          </Box>
+        </Box>
+      )}
+    </div>
   );
 }
