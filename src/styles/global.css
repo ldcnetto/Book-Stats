@@ -4,6 +4,51 @@
 @tailwind components;
 @tailwind utilities;
 
+::-webkit-scrollbar {
+  width: 4px; /* Largura da barra de rolagem */
+  height: 4px; /* Altura da barra de rolagem (para scroll horizontal) */
+}
+
+/* Estilo da "thumb" (a parte que você arrasta) */
+::-webkit-scrollbar-thumb {
+  background-color: #1d9bf0; /* Cor da thumb */
+  border-radius: 2px; /* Borda arredondada (opcional) */
+  border: none; /* Remove qualquer borda */
+  background-clip: padding-box; /* Para evitar que a cor de fundo vaze para fora da borda */
+}
+
+/* Remove as setas de cima e de baixo (Chrome, Safari) */
+::-webkit-scrollbar-button:single-button {
+  display: none;
+}
+
+::-webkit-scrollbar-button {
+  display: none; /* Esconde os botões */
+  height: 0; /* Define a altura como zero para ter certeza de que estão ocultos */
+  width: 0; /* O mesmo para a largura */
+  background-color: transparent; /* Para maior segurança */
+}
+
+::-webkit-scrollbar-track-piece:start {
+  background: transparent; /* Remove o fundo da parte inicial da track (onde as setas geralmente ficam) */
+  margin-top: 0; /* Remove a margem da parte inicial da track, se necessário */
+}
+::-webkit-scrollbar-track-piece:end {
+  background: transparent; /* Remove o fundo da parte final da track (onde as setas geralmente ficam) */
+  margin-bottom: 0; /* Remove a margem da parte final da track, se necessário */
+}
+
+/* Remove a track (a área atrás da thumb) (Chrome, Safari)  */
+::-webkit-scrollbar-track {
+  background: transparent; /* Torna o fundo transparente */
+}
+
+/* Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #1d9bf0 transparent; /* Cor da thumb e da track */
+}
+
 body {
   margin: 0;
   box-sizing: border-box;
@@ -11,7 +56,7 @@ body {
   transition:
     background-color 0.2s ease,
     color 0.2s ease; /* Add transition for body */
-  background-color: #ffffff; /* Initial background color (light mode) */
+  background-color: 1D9BF0; /* Initial background color (light mode) */
   color: #111111; /* Initial text color (light mode) */
 }
 
